@@ -224,93 +224,86 @@ def install_externals() :
         logger('You have not installed Java runtime. Please install it first. ')
         sys.exit(1)
 
-    if not getExecutable([externals['nextpolish']]) :
-        url = 'https://github.com/Nextomics/NextPolish/releases/latest/download/NextPolish.tgz'
-        logger('Downloading NextPolish package from {0}'.format(url))
-        subprocess.Popen('curl -Lo NextPolish.tgz {0}'.format(url).split(), stderr=subprocess.PIPE).communicate()
-        logger('Unpackaging NextPolish package')
-        subprocess.Popen('tar -xzf NextPolish.tgz'.split()).communicate()
-        subprocess.Popen('make', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd='NextPolish').communicate()
-        subprocess.Popen('ln -fs NextPolish/lib/nextpolish1.py ./nextpolish'.split(), stderr=subprocess.PIPE).communicate()
-        subprocess.Popen('chmod 755 ./nextpolish'.split(), stderr=subprocess.PIPE).communicate()
-        os.unlink('NextPolish.tgz')
-        logger('Done\n')
-
-
     if not getExecutable([externals['raxml_ng']]) :
+        #url = 'https://github.com/amkozlov/raxml-ng/releases/download/0.9.0/raxml-ng_v0.9.0_linux_x86_64.zip'
         url = 'https://github.com/amkozlov/raxml-ng/releases/download/1.0.1/raxml-ng_v1.0.1_linux_x86_64.zip'
         logger('Downloading raxml-ng package from {0}'.format(url))
         subprocess.Popen('curl -Lo raxml-ng_v1.0.1_linux_x86_64.zip {0}'.format(url).split(), stderr=subprocess.PIPE).communicate()
-        logger('Unpackaging raxml-ng package')
-        subprocess.Popen('unzip raxml-ng_v1.0.1_linux_x86_64.zip -d raxml-ng_v1.0.1'.split(), stderr=subprocess.PIPE).communicate()
-        subprocess.Popen('ln -fs raxml-ng_v1.0.1/raxml-ng ./raxml-ng'.split(), stderr=subprocess.PIPE).communicate()
+        logger('Unpackaging raxml-ng package'.format(url))
+        subprocess.Popen('unzip raxml-ng_v1.0.1_linux_x86_64.zip -d raxml-ng_v1.0.1'.split()).communicate()
+        subprocess.Popen('ln -fs raxml-ng_v1.0.1/raxml-ng ./raxml-ng'.format(url).split(), stderr=subprocess.PIPE).communicate()
         os.unlink('raxml-ng_v1.0.1_linux_x86_64.zip')
         logger('Done\n')
 
     if not getExecutable(externals['pilon'].split()) :
-        url = 'https://github.com/broadinstitute/pilon/releases/download/v1.24/pilon-1.24.jar'
-        logger('Downloading pilon-1.24.jar package from {0}'.format(url))
-        subprocess.Popen('curl -Lo pilon-1.23.jar {0}'.split(), stderr=subprocess.PIPE).communicate()
+        url = 'https://github.com/broadinstitute/pilon/releases/download/v1.23/pilon-1.23.jar'
+        logger('Downloading pilon-1.23.jar package from {0}'.format(url))
+        subprocess.Popen('curl -Lo pilon-1.23.jar {0}'.format(url).split(), stderr=subprocess.PIPE).communicate()
         logger('Done\n')
 
     if not getExecutable([externals['diamond']]) :
-        url = 'https://github.com/bbuchfink/diamond/releases/download/v2.0.11/diamond-linux64.tar.gz'
-        # url = 'https://github.com/bbuchfink/diamond/releases/download/v0.9.29/diamond-linux64.tar.gz'
+        url = 'https://github.com/bbuchfink/diamond/releases/download/v0.9.29/diamond-linux64.tar.gz'
         logger('Downloading diamond package from {0}'.format(url))
         subprocess.Popen('curl -Lo diamond-linux64.tar.gz {0}'.format(url).split(), stderr=subprocess.PIPE).communicate()
         logger('Unpackaging diamond package'.format(url))
         subprocess.Popen('tar -xzf diamond-linux64.tar.gz'.split()).communicate()
         os.unlink('diamond-linux64.tar.gz')
-        try :
-            os.unlink('diamond_manual.pdf')
-        except :
-            pass
+        os.unlink('diamond_manual.pdf')
         logger('Done\n')
 
     if not getExecutable(externals['flye'].split()) :
-        url = 'https://github.com/fenderglass/Flye/archive/refs/tags/2.8.3.tar.gz'
-        #url = 'https://github.com/fenderglass/Flye/archive/2.7.tar.gz'
+        url = 'https://github.com/fenderglass/Flye/archive/2.7.tar.gz'
         logger('Downloading Flye from {0}'.format(url))
-        subprocess.Popen('curl -Lo Flye.2.8.3.tar.gz {0}'.format(url).split(), stderr=subprocess.PIPE).communicate()
+        subprocess.Popen('curl -Lo Flye.2.7.tar.gz {0}'.format(url).split(), stderr=subprocess.PIPE).communicate()
         logger('Unpackaging Flye'.format(url))
-        subprocess.Popen('tar -xzf Flye.2.8.3.tar.gz'.split()).communicate()
-        os.unlink('Flye.2.8.3.tar.gz')
-        subprocess.Popen('make', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd='Flye-2.8.3').communicate()
-        subprocess.Popen('ln -fs Flye-2.8.3/bin/flye ./flye', shell=True).communicate()
+        subprocess.Popen('tar -xzf Flye.2.7.tar.gz'.split()).communicate()
+        os.unlink('Flye.2.7.tar.gz')
+        subprocess.Popen('make', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd='Flye-2.7').communicate()
+        subprocess.Popen('ln -fs Flye-2.7/bin/flye ./flye', shell=True).communicate()
         logger('Done\n')
 
     if not getExecutable([externals['spades']]) :
-        url = 'https://github.com/ablab/spades/releases/download/v3.15.2/SPAdes-3.15.2-Linux.tar.gz'
-        #url = 'https://github.com/ablab/spades/releases/download/v3.13.0/SPAdes-3.13.0-Linux.tar.gz'
-        logger('Downloading SPAdes-3.15.2 package from {0}'.format(url))
-        subprocess.Popen('curl -Lo SPAdes-3.15.2-Linux.tar.gz {0}'.format(url).split(), stderr=subprocess.PIPE).communicate()
-        logger('Unpackaging SPAdes-3.15.2-Linux package'.format(url))
-        subprocess.Popen('tar -xzf SPAdes-3.15.2-Linux.tar.gz'.split()).communicate()
-        os.unlink('SPAdes-3.15.2-Linux.tar.gz')
-        subprocess.Popen('ln -fs SPAdes-3.15.2-Linux/bin/spades.py ./spades.py'.split()).communicate()
+        url = 'https://github.com/ablab/spades/releases/download/v3.13.0/SPAdes-3.13.0-Linux.tar.gz'
+        logger('Downloading SPAdes-3.13.0 package from {0}'.format(url))
+        subprocess.Popen('curl -Lo SPAdes-3.13.0-Linux.tar.gz {0}'.format(url).split(), stderr=subprocess.PIPE).communicate()
+        logger('Unpackaging SPAdes-3.13.0-Linux package'.format(url))
+        subprocess.Popen('tar -xzf SPAdes-3.13.0-Linux.tar.gz'.split()).communicate()
+        os.unlink('SPAdes-3.13.0-Linux.tar.gz')
+        subprocess.Popen('ln -fs SPAdes-3.13.0-Linux/bin/spades.py ./spades.py'.split()).communicate()
         logger('Done\n')
 
     if not getExecutable([externals['bbduk']]) or not getExecutable([externals['bbmerge']]) or not getExecutable([externals['repair']]):
-        url = 'https://netcologne.dl.sourceforge.net/project/bbmap/BBMap_38.90.tar.gz'
+        url = 'https://netcologne.dl.sourceforge.net/project/bbmap/BBMap_38.73.tar.gz'
         logger('Downloading BBmap package from {0}'.format(url))
-        subprocess.Popen('curl -Lko BBMap_38.90.tar.gz {0}'.format(url).split(), stderr=subprocess.PIPE).communicate()
+        subprocess.Popen('curl -Lo BBMap_38.73.tar.gz {0}'.format(url).split(), stderr=subprocess.PIPE).communicate()
         logger('Unpackaging BBmap package'.format(url))
-        subprocess.Popen('tar -xzf BBMap_38.90.tar.gz'.split()).communicate()
-        os.unlink('BBMap_38.90.tar.gz')
+        subprocess.Popen('tar -xzf BBMap_38.73.tar.gz'.split()).communicate()
+        os.unlink('BBMap_38.73.tar.gz')
         subprocess.Popen('ln -fs bbmap/bbduk.sh ./bbduk.sh'.split()).communicate()
         subprocess.Popen('ln -fs bbmap/bbmerge.sh ./bbmerge.sh'.split()).communicate()
         subprocess.Popen('ln -fs bbmap/repair.sh ./repair.sh'.split()).communicate()
         logger('Done\n')
 
+    
+    if not getExecutable([externals['blastn']]) or not getExecutable([externals['makeblastdb']]) :
+        blast_url = 'ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.8.1/ncbi-blast-2.8.1+-x64-linux.tar.gz'
+        logger('Downloading ncbi-blast package from {0}'.format(blast_url))
+        subprocess.Popen('curl -Lo ncbi-blast-2.8.1+-x64-linux.tar.gz {0}'.format(blast_url).split(), stderr=subprocess.PIPE).communicate()
+        logger('Unpackaging ncbi-blast package'.format(blast_url))
+        subprocess.Popen('tar -xzf ncbi-blast-2.8.1+-x64-linux.tar.gz'.split()).communicate()
+        os.unlink('ncbi-blast-2.8.1+-x64-linux.tar.gz')
+        subprocess.Popen('ln -fs ncbi-blast-2.8.1+/bin/blastn ./blastn'.split()).communicate()
+        subprocess.Popen('ln -fs ncbi-blast-2.8.1+/bin/makeblastdb ./makeblastdb'.split()).communicate()
+        logger('Done\n')
+    
     if not getExecutable([externals['megahit']]) :
-        megahit_url = 'https://github.com/voutcn/megahit/releases/download/v1.2.9/MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz'
-        # megahit_url = 'https://github.com/voutcn/megahit/releases/download/v1.1.4/megahit_v1.1.4_LINUX_CPUONLY_x86_64-bin.tar.gz'
+        megahit_url = 'https://github.com/voutcn/megahit/releases/download/v1.1.4/megahit_v1.1.4_LINUX_CPUONLY_x86_64-bin.tar.gz'
         logger('Downloading megahit package from {0}'.format(megahit_url))
-        subprocess.Popen('curl -Lo MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz {0}'.format(megahit_url).split(), stderr=subprocess.PIPE).communicate()
+        subprocess.Popen('curl -Lo megahit_v1.1.4_LINUX_CPUONLY_x86_64-bin.tar.gz {0}'.format(megahit_url).split(), stderr=subprocess.PIPE).communicate()
         logger('Unpackaging megahit package'.format(megahit_url))
-        subprocess.Popen('tar -xzf MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz'.split()).communicate()
-        os.unlink('MEGAHIT-1.2.9-Linux-x86_64-static.tar.gz')
-        subprocess.Popen('ln -fs MEGAHIT-1.2.9-Linux-x86_64-static/bin/megahit ./megahit'.split()).communicate()
+        subprocess.Popen('tar -xzf megahit_v1.1.4_LINUX_CPUONLY_x86_64-bin.tar.gz'.split()).communicate()
+        os.unlink('megahit_v1.1.4_LINUX_CPUONLY_x86_64-bin.tar.gz')
+        subprocess.Popen('ln -fs megahit_v1.1.4_LINUX_CPUONLY_x86_64-bin/megahit ./megahit'.split()).communicate()
         logger('Done\n')
 
     if not getExecutable([externals['bowtie2']]) :
@@ -325,18 +318,12 @@ def install_externals() :
         logger('Done\n')
 
     if not getExecutable([externals['mmseqs']]) :
-        if int(subprocess.Popen('cat /proc/cpuinfo | grep avx2|wc', shell=True, stdout=subprocess.PIPE).communicate()[0].strip().split()[0]) :
-            mmseqs_url = 'https://github.com/soedinglab/MMseqs2/releases/download/13-45111/mmseqs-linux-avx2.tar.gz'
-        elif int(subprocess.Popen('cat /proc/cpuinfo | grep SSE4|wc', shell=True, stdout=subprocess.PIPE).communicate()[0].strip().split()[0]) :
-            mmseqs_url = 'https://github.com/soedinglab/MMseqs2/releases/download/13-45111/mmseqs-linux-sse41.tar.gz'
-        else :
-            mmseqs_url = 'https://github.com/soedinglab/MMseqs2/releases/download/13-45111/mmseqs-linux-arm64.tar.gz'
+        mmseqs_url = 'https://github.com/soedinglab/MMseqs2/releases/download/7-4e23d/MMseqs2-Linux-SSE4_1.tar.gz'
         logger('Downloading mmseqs package from {0}'.format(mmseqs_url))
-        subprocess.Popen('curl -Lo MMseqs2.tar.gz {0}'.format(mmseqs_url).split(), stderr=subprocess.PIPE).communicate()
+        subprocess.Popen('curl -Lo MMseqs2-Linux-SSE4_1.tar.gz {0}'.format(mmseqs_url).split(), stderr=subprocess.PIPE).communicate()
         logger('Unpackaging mmseqs package')
-        subprocess.Popen('tar -xzf MMseqs2.tar.gz'.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-        os.unlink('MMseqs2.tar.gz')
-        os.rename('mmseqs', 'mmseqs2')
+        subprocess.Popen('tar -xzf MMseqs2-Linux-SSE4_1.tar.gz'.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        os.unlink('MMseqs2-Linux-SSE4_1.tar.gz')
         subprocess.Popen('ln -fs mmseqs2/bin/mmseqs ./mmseqs'.split()).communicate()
         logger('Done\n')
 
@@ -353,41 +340,37 @@ def install_externals() :
         subprocess.Popen('ln -fs last-1021/src/lastal ./lastal'.split()).communicate()
         subprocess.Popen('ln -fs last-1021/src/lastdb ./lastdb'.split()).communicate()
         logger('Done\n')
+     
+    if not getExecutable(externals['gatk'].split()) :
+        gatk_url = 'https://github.com/broadinstitute/gatk/releases/download/4.1.0.0/gatk-4.1.0.0.zip'
+        logger('Downloading gatk package from {0}'.format(gatk_url))
+        subprocess.Popen('curl -Lo gatk-4.1.0.0.zip {0}'.format(gatk_url).split(), stderr=subprocess.PIPE).communicate()
+        logger('Unpackaging gatk package')
+        subprocess.Popen('unzip -o gatk-4.1.0.0.zip'.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        os.unlink('gatk-4.1.0.0.zip')
+        subprocess.Popen('ln -fs gatk-4.1.0.0/gatk-package-4.1.0.0-local.jar ./gatk-package-4.1.0.0-local.jar'.split()).communicate()
+        logger('Done\n')
 
     if not getExecutable(externals['kraken2'].split()) :
-        kraken2_url = 'https://github.com/DerrickWood/kraken2/archive/refs/tags/v2.1.2.tar.gz'
-        # kraken2_url = 'https://github.com/DerrickWood/kraken2/archive/v2.0.7-beta.tar.gz'
+        kraken2_url = 'https://github.com/DerrickWood/kraken2/archive/v2.0.7-beta.tar.gz'
         logger('Downloading kraken2 package from {0}'.format(kraken2_url))
-        subprocess.Popen('curl -Lo kraken2.1.2.tar.gz {0}'.format(kraken2_url).split(), stderr=subprocess.PIPE).communicate()
+        subprocess.Popen('curl -Lo v2.0.7-beta.tar.gz {0}'.format(kraken2_url).split(), stderr=subprocess.PIPE).communicate()
         logger('Unpackaging kraken2 package')
-        subprocess.Popen('tar -xzf kraken2.1.2.tar.gz'.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-        os.unlink('kraken2.1.2.tar.gz')
-        subprocess.Popen('cd kraken2-2.1.2 && bash install_kraken2.sh ./', stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True).communicate()
-        subprocess.Popen('ln -fs kraken2-2.1.2/kraken2 ./kraken2'.split()).communicate()
+        subprocess.Popen('tar -xzf v2.0.7-beta.tar.gz'.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        os.unlink('v2.0.7-beta.tar.gz')
+        subprocess.Popen('cd kraken2-2.0.7-beta && bash install_kraken2.sh ./', stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True).communicate()
+        subprocess.Popen('ln -fs kraken2-2.0.7-beta/kraken2 ./kraken2'.split()).communicate()
         logger('Done\n')
 
     if not getExecutable(externals['samtools'].split()) :
-        samtools_url = 'https://github.com/samtools/samtools/releases/download/1.13/samtools-1.13.tar.bz2'
-        # samtools_url = 'https://github.com/samtools/samtools/releases/download/1.11/samtools-1.11.tar.bz2'
+        samtools_url = 'https://github.com/samtools/samtools/releases/download/1.11/samtools-1.11.tar.bz2'
         logger('Downloading samtools from {0}'.format(samtools_url))
-        subprocess.Popen('curl -Lo samtools-1.13.tar.bz2 {0}'.format(samtools_url).split(), stderr=subprocess.PIPE).communicate()
+        subprocess.Popen('curl -Lo samtools-1.11.tar.bz2 {0}'.format(samtools_url).split(), stderr=subprocess.PIPE).communicate()
         logger('Unpackaging samtools package')
-        subprocess.Popen('tar -xjf samtools-1.13.tar.bz2'.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-        os.unlink('samtools-1.13.tar.bz2')
-        subprocess.Popen('cd samtools-1.13 && ./configure --disable-bz2 --disable-lzma --without-curses && make', stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True).communicate()
-        subprocess.Popen('ln -fs samtools-1.13/samtools ./samtools'.split()).communicate()
-        logger('Done\n')
-
-    if not getExecutable([externals['blastn']]) or not getExecutable([externals['makeblastdb']]) :
-        blast_url = 'ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.8.1/ncbi-blast-2.8.1+-x64-linux.tar.gz'
-        logger('Downloading ncbi-blast package from {0}'.format(blast_url))
-        subprocess.Popen('curl -Lo ncbi-blast-2.8.1+-x64-linux.tar.gz {0}'.format(blast_url).split(), stderr=subprocess.PIPE).communicate()
-        logger('Unpackaging ncbi-blast package'.format(blast_url))
-        subprocess.Popen('tar -xzf ncbi-blast-2.8.1+-x64-linux.tar.gz'.split()).communicate()
-        os.unlink('ncbi-blast-2.8.1+-x64-linux.tar.gz')
-        subprocess.Popen('ln -fs ncbi-blast-2.8.1+/bin/blastn ./blastn'.split()).communicate()
-        subprocess.Popen('ln -fs ncbi-blast-2.8.1+/bin/makeblastdb ./makeblastdb'.split()).communicate()
-        logger('Done\n')
+        subprocess.Popen('tar -xjf samtools-1.11.tar.bz2'.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        os.unlink('samtools-1.11.tar.bz2')
+        subprocess.Popen('cd samtools-1.11 && ./configure --disable-bz2 --disable-lzma --without-curses && make', stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True).communicate()
+        subprocess.Popen('ln -fs samtools-1.11/samtools ./samtools'.split()).communicate()
 
     if not getExecutable([externals['usearch']]) :
         logger('The 32-bit version of USEARCH is licensed at no charge for individual use. \nPlease download it at    https://www.drive5.com/usearch/download.html\nAnd copy it into the externals/usearch')
@@ -427,6 +410,7 @@ def prepare_externals(conf=None) :
     if conf is None :
         conf = load_configure()
     externals = {k.strip():v.split('#')[0].strip().format(ETOKI=ETOKI) for k,v in conf.tolist()}
+    externals['gatk']  = 'java -Xmx31g -jar ' + externals.get('gatk', '')
     externals['pilon'] = 'java -Xmx63g -jar ' + externals.get('pilon', '')
     externals['enbler_filter'] = sys.executable + ' {ETOKI}/modules/_EnFlt.py'.format(ETOKI=ETOKI)
     externals['pigz'] = getExecutable(['pigz'])[0] if getExecutable(['pigz']) else getExecutable(['gzip'])[0]
